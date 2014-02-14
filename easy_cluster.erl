@@ -19,13 +19,13 @@ join(NodeName) ->
         application:start(ejabberd).
 
 join_as_master(NodeName) ->
+        application:stop(ejabberd),
         mnesia:stop(),
         mnesia:delete_schema([node()]),
         mnesia:start(),
         mnesia:change_config(extra_db_nodes, [NodeName]),
         mnesia:change_table_copy_type(schema, node(), disc_copies),
         easy_cluster:sync_node(NodeName),
-        application:stop(ejabberd),
         application:start(ejabberd).
 
 sync_node(NodeName) ->
