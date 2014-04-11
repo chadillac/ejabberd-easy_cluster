@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ejabberd-easy cluster by chadillac</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/chadillac/ejabberd-easy_cluster">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/chadillac/ejabberd-easy_cluster/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/chadillac/ejabberd-easy_cluster/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Ejabberd-easy cluster</h1>
+          <p>Ease the process of a slave ejabberd node joining an existing cluster.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/chadillac">chadillac</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="ejabberd-easy_cluster" class="anchor" href="#ejabberd-easy_cluster"><span class="octicon octicon-link"></span></a>ejabberd-easy_cluster</h1>
+
+<p>Ease the process of a slave ejabberd node joining an existing cluster.  For detailed information of configuration please see these blog posts:</p>
+
+<p><strong>basic configuration</strong><br><a href="http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql">http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql</a></p>
+
+<p><strong>more detail on multi-master clustering</strong><br><a href="http://chad.ill.ac/post/55193155663/easy-ejabberd-clustering-multi-master-fault-tolerant">http://chad.ill.ac/post/55193155663/easy-ejabberd-clustering-multi-master-fault-tolerant</a></p>
+
+<hr><h4>
+<a name="a-note-regarding-multi-master-clustering" class="anchor" href="#a-note-regarding-multi-master-clustering"><span class="octicon octicon-link"></span></a>A NOTE REGARDING MULTI-MASTER CLUSTERING:</h4>
+
+<p>This configuration is being run in <em>our environment</em> but I <strong>cannot call it ready for a every production enviornment</strong>, other users have reported issues regarding configurations that I am unable to troubleshoot or support due to time and responsability contraints.  These issues range from package managers default configuration file locations to netsplits partitioning networks that aren't run on VLANS. </p>
+
+<p>That said, we have been running this configuration in a production enviornment and have not had any issues as a result of it... <strong>use multi-master clustering at your own risk.</strong></p>
+
+<hr><h1>
+<a name="here-is-a-quick-run-down-of-the-process-once-youre-got-everything-properly-configured" class="anchor" href="#here-is-a-quick-run-down-of-the-process-once-youre-got-everything-properly-configured"><span class="octicon octicon-link"></span></a>Here is a quick run down of the process once you're got everything properly configured.</h1>
+
+<p><strong>Start the server</strong></p>
+
+<pre><code>$ejabberdctl start  
+</code></pre>
+
+<p><strong>Drop to live debug shell of running server</strong></p>
+
+<pre><code>$ejabberdctl debug
+</code></pre>
+
+<p><strong>You'll see this message, press enter</strong></p>
+
+<pre><code>--------------------------------------------------------------------
+
+IMPORTANT: we will attempt to attach an INTERACTIVE shell
+to an already running ejabberd node.
+If an ERROR is printed, it means the connection was not successful.
+You can interact with the ejabberd node if you know how to use it.
+Please be extremely cautious with your actions,
+and exit immediately if you are not completely sure.
+
+To detach this shell from ejabberd, press:
+  control+c, control+c
+
+--------------------------------------------------------------------
+To bypass permanently this warning, add to ejabberdctl.cfg the line:
+  EJABBERD_BYPASS_WARNINGS=true
+Press any key to continue
+
+[PRESS ENTER KEY HERE]
+
+(your information will likely be different here...)
+Erlang R16B03-1 (erts-5.10.4) [source] [64-bit] [smp:4:4] [async-threads:10] [hipe] [kernel-poll:true]
+
+Eshell V5.10.4  (abort with ^G)
+(ejabberd@server2.yourhost.com)1&gt;
+</code></pre>
+
+<p><strong>Load the <code>easy_cluster</code> module</strong></p>
+
+<pre><code>(ejabberd@server2.yourhost.com)1&gt;l('easy_cluster').
+{module,easy_cluster} 
+</code></pre>
+
+<p><strong>Test to make sure the node is properly configured and reachable</strong></p>
+
+<pre><code>(ejabberd@server2.yourhost.com)2&gt;easy_cluster:test_node('ejabberd@server1.yourhost.com').
+server is reachable.  
+ok                    
+</code></pre>
+
+<h3>
+<a name="pick-a-cluster-type-standard-slave-or-multi-master" class="anchor" href="#pick-a-cluster-type-standard-slave-or-multi-master"><span class="octicon octicon-link"></span></a>Pick a cluster type, standard slave OR multi-master</h3>
+
+<p><strong>Joining as a standard slave</strong></p>
+
+<pre><code>(ejabberd@server2.yourhost.com)3&gt;easy_cluster:join('ejabberd@server1.yourhost.com').
+ok
+</code></pre>
+
+<p><strong>Joining as multi-master node</strong></p>
+
+<pre><code>(ejabberd@server2.yourhost.com)3&gt;easy_cluster:join_as_master('ejabberd@server1.yourhost.com').
+ok
+</code></pre>
+
+<p><strong>Exit the debug shell while leaving the server instance running</strong></p>
+
+<pre><code>(ejabberd@server2.yourhost.com)3&gt;[press Ctrl+c]
+BREAK: (a)bort (c)ontinue (p)roc info (i)nfo (l)oaded
+   (v)ersion (k)ill (D)b-tables (d)istribution
+[press Ctrl+c again]
+</code></pre>
+
+<p><strong>You're done... go test it out and confirm everything is working :)</strong></p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
