@@ -1,7 +1,10 @@
 ejabberd-easy_cluster
 ====
 
-Ease the process of a slave ejabberd node joining an existing cluster.  For detailed information of configuration please see these blog posts:
+Make multi-master Ejabberd clustering possible, make it easy. Also ease the process of a slave Ejabberd node joining an existing cluster using a traditional master->slave configuration.  
+
+
+#### For detailed information of configuration please see these blog posts:
 
 **basic configuration**  
 http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql
