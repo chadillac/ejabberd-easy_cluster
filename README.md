@@ -1,8 +1,3 @@
-#### A NOTE REGARDING MULTI-MASTER CLUSTERING:
-This configuration is being run in *our environment* but I **cannot call it ready for a every production enviornment**, other users have reported issues regarding configurations that I am unable to troubleshoot or support due to time and responsability contraints.  These issues range from package managers default configuration file locations to netsplits partitioning networks that aren't run on VLANS. 
-
-That said, we have been running this configuration in a production enviornment and have not had any issues as a result of it... **use multi-master clustering at your own risk.**
-
 ejabberd-easy_cluster
 ====
 
@@ -13,6 +8,15 @@ http://chad.ill.ac/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql
 
 **more detail on multi-master clustering**  
 http://chad.ill.ac/post/55193155663/easy-ejabberd-clustering-multi-master-fault-tolerant
+
+* * *
+
+#### A NOTE REGARDING MULTI-MASTER CLUSTERING:
+This configuration is being run in *our environment* but I **cannot call it ready for a every production enviornment**, other users have reported issues regarding configurations that I am unable to troubleshoot or support due to time and responsability contraints.  These issues range from package managers default configuration file locations to netsplits partitioning networks that aren't run on VLANS. 
+
+That said, we have been running this configuration in a production enviornment and have not had any issues as a result of it... **use multi-master clustering at your own risk.**
+
+* * *
 
 Here is a quick run down of the process once you're got everything properly configured.
 ====
