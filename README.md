@@ -7,10 +7,10 @@ Make multi-master Ejabberd clustering possible, make it easy. Also ease the proc
 #### For detailed information of configuration please see these blog posts:
 
 **basic configuration**  
-http://chadillac.tumblr.com/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql
+http://chadillac-blog.tumblr.com/post/35967173942/easy-ejabberd-clustering-guide-mnesia-mysql
 
 **more detail on multi-master clustering**  
-http://chadillac.tumblr.com/post/55193155663/easy-ejabberd-clustering-multi-master-fault-tolerant
+http://chadillac-blog.tumblr.com/post/55193155663/easy-ejabberd-clustering-multi-master-fault-tolerant
 
 * * *
 
